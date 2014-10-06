@@ -616,6 +616,8 @@ public class DBLPParser {
 			JAXBContext jaxbContext = JAXBContext.newInstance(DBLPElement.class);
 
 			SAXParserFactory spf = SAXParserFactory.newInstance();
+			spf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+	        spf.setFeature("http://xml.org/sax/features/validation", false);
 			//			spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, false);
 			XMLReader xmlReader = spf.newSAXParser().getXMLReader();
 
