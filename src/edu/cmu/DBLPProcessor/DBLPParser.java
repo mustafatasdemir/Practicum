@@ -17,7 +17,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -39,7 +38,6 @@ import com.google.common.collect.LinkedHashMultimap;
 import edu.cmu.jung.CoAuthorGraph;
 import edu.cmu.trustprocessor.DBLPTrustProcessor;
 
-//import views.NaiveBayes;
 /**
  * @author NASA-Trust-Team
  * 
@@ -63,16 +61,10 @@ public class DBLPParser {
 
 	public static Map<String,DBLPUser> parseDBLP(String fileName) throws JAXBException, IOException, SAXException, ParserConfigurationException {
 		DBLPParser dblpParser = new DBLPParser();
-		//dblpParser.parseDBLPXML(Play.application().path().getPath() + "/../../.." + "/public/dblp_example.xml");
 		dblpParser.parseDBLPXML(fileName);
-		//dblpParser.getCSVFile(Play.application().path().getPath() + "/../../.." + "/public/dblp_example.xml");
 		printParseDBLPXML();
 		parseAuthor(); //without citations
 		System.out.println("Author : "+dblpUserList.size());
-		Set<String> hs = dblpUserList.keySet();
-		Iterator it = hs.iterator();
-		//		while (it.hasNext())
-		//			System.out.println(it.next() );
 
 		return dblpUserList;
 	}
@@ -886,6 +878,8 @@ public class DBLPParser {
 		return null;
 	}
 
+	// TODO: Mustafa - This method is not used. Investigate and remove if necessary
+	@SuppressWarnings("unused")
 	private void getCSVFile(String fileName) throws SAXException, FileNotFoundException, IOException {
 		XMLReader xr = XMLReaderFactory.createXMLReader();
 		HeaderHandler handler = new HeaderHandler();
@@ -1190,22 +1184,22 @@ public class DBLPParser {
 		printParseDBLPXML();
 	}
 
+	// Variables are giving unused error although they should not.
+	// Method is effectovely used
+	@SuppressWarnings("unused")
 	private static void writeRelevantValuesIntoNaiveBayesFile(List<String> authors, Integer year, String inputFileName) throws JAXBException, IOException, SAXException, ParserConfigurationException {
 		String firstAuthor, secondAuthor;
 		Double timebasedFirstAuthorTrust, timebasedSecondAuthorTrust,coauthorDistance;
 		FileParser fp;
+		String cvalue;
+		String jsvalue;
+		String tsvalue;
+		String csvalue;
 		Double js = (double) 0;
 		DBLPParser.getPriorPublicationsXML(inputFileName, year, "modified_dblp.xml");
 		DBLPTrustProcessor trustProcessor = new DBLPTrustProcessor("modified_dblp.xml");
 		CoAuthorGraph graph = new CoAuthorGraph("modified_dblp.xml");
 		graph.constructGraph();
-		HashMap<String, DBLPUser> dblp = graph.getDblp();
-		String cvalue;
-		String jsvalue;
-		String tsvalue;
-		String csvalue;
-		//PrintWriter writer = new PrintWriter("/Users/ShuaiWang/Desktop/Output.txt", "UTF-8");
-		//FileWriter fstream = new FileWriter("/Users/ShuaiWang/Desktop/Crazy.txt",true);
 		FileWriter fstream = new FileWriter(System.getProperty("user.home") + "/Crazy.txt",true);
 		BufferedWriter out = new BufferedWriter(fstream);
 		//Hashtable<String,String> p = JaccardSimilarity.datapreprocess();
@@ -1355,7 +1349,7 @@ public class DBLPParser {
 		private String currentElement;
 		private boolean insideElement = false;
 		private Attributes attribs;
-		private LinkedHashMultimap dataMap;
+		private LinkedHashMultimap<Object, Object> dataMap;
 		private String[] headerArray;
 
 		private String[] validHeaders = {"www", "phdthesis", "article", "book", "incollection", "inproceeding", "masterthesis"};

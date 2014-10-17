@@ -170,7 +170,6 @@ public class DBLPUser {
 	}
 
 
-	@SuppressWarnings("unused")
 	private Map<Integer, Integer> listCoauthorID() {
 
 		Map<Integer,Integer> coauthors = new HashMap<Integer,Integer>();
@@ -198,6 +197,8 @@ public class DBLPUser {
 		return coauthors;
 	}
 	
+	// TODO: Mustafa - This method is not used. Investigate and remove if necessary
+	@SuppressWarnings("unused")
 	private void writeXMLCoauthorship(Coauthorship coauthorship, String filename) throws JAXBException{
 		JAXBContext context = JAXBContext.newInstance(Coauthorship.class);
 		Marshaller m = context.createMarshaller();
