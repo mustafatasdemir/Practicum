@@ -3,6 +3,7 @@ package demo;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
@@ -92,13 +93,18 @@ public class ShowGraph extends HttpServlet {
 			filename = "dblp_example";
 		}
 		
-		exportPic(filename);
-		
-		File f = new File("/Users/ironstone/Documents/workspace/Practicum/WebContent/" + filename + ".png");
-		BufferedImage bi = ImageIO.read(f);
-		OutputStream outs = response.getOutputStream();
-		ImageIO.write(bi, "jpg", outs);
-		outs.close();
+		try {
+			exportPic(filename);
+			
+			File f = new File("/home/mustafa/images/" + filename + ".png");
+			BufferedImage bi = ImageIO.read(f);
+			OutputStream outs = response.getOutputStream();
+			ImageIO.write(bi, "jpg", outs);
+			outs.close();
+			
+		} catch (HeadlessException e) {
+			
+		}
 	}
 	
 	
@@ -107,7 +113,7 @@ public class ShowGraph extends HttpServlet {
 		
 		try {
 			
-			myApp = new CoAuthorGraph("/Users/ironstone/" + path + ".xml");
+			myApp = new CoAuthorGraph("/home/mustafa/xml/" + path + ".xml");
 			myApp.constructGraph();
 		} catch (SAXException e1) {
 			// TODO Auto-generated catch block
@@ -171,7 +177,7 @@ public class ShowGraph extends HttpServlet {
 		    new Dimension(vv.getGraphLayout().getSize()));
 
 		// Write image to a png file
-		File outputfile = new File("/Users/ironstone/Documents/workspace/Practicum/WebContent/" + path + ".png");
+		File outputfile = new File("/home/mustafa/images/" + path + ".png");
 
 		try {
 		    ImageIO.write(image, "png", outputfile);
