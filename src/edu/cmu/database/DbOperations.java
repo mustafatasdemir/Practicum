@@ -8,18 +8,18 @@ public class DbOperations {
 	private Connection connection = null;
 	private Statement statement = null;
 	// JDBC driver name and database URL
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	static final String DB_URL = "jdbc:mysql://localhost/test";
+	//static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+	static final String DB_URL = "jdbc:mysql://localhost/sakila";
 	//	//  Database credentials
-	static final String USER = "Shuai";
-	static final String PASS = "123456";
+	static final String USER = "root";
+	static final String PASS = "P@$$w0r|)";
 
 	public DbOperations() throws ClassNotFoundException, SQLException {
 		super();
-		Class.forName(JDBC_DRIVER);
+		DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 
 		System.out.println("Connecting to database...");
-		connection = DriverManager.getConnection(DB_URL,"root","");
+		connection = DriverManager.getConnection(DB_URL,USER,PASS);
 
 		System.out.println("Creating statement...");
 		statement = connection.createStatement();
@@ -36,16 +36,16 @@ public class DbOperations {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		
 		DbOperations blah = new DbOperations();
-		ResultSet rs = blah.callDatabaseQuery("SELECT * FROM coauthor.Coauthors");
+		ResultSet rs = blah.callDatabaseQuery("SELECT * FROM sakila.actor");
 		while(rs.next()){
 			//Retrieve by column name
-			String author = rs.getString("Author");
-			String coauthor = rs.getString("Coauthor");
+			String author = rs.getString("first_name");
+			String coauthor = rs.getString("last_name");
 
 			//Display values
-			System.out.print("Author 1: " + author);
+			System.out.print("FirstName: " + author);
 			System.out.print("=====");
-			System.out.println("Coauthor: " + coauthor);
+			System.out.println("LastName: " + coauthor);
 		}
 	}
 }
