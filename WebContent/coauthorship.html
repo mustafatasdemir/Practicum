@@ -1,0 +1,105 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>CoAuthor Networks: Interative Network</title>
+  <meta name="description" content="Demo for How to Build an Interactive Network Visualization.">
+  <meta name="author" content="Jim Vallandingham">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- CSS concatenated and minified via ant build script-->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- end CSS-->
+
+  <script src="js/libs/modernizr-2.0.6.min.js"></script>
+</head>
+
+<body>
+
+  <div id="container" class="container">
+    <header>
+    <h1>CoAuthorship Network</h1>
+    <p>Authors who have collaborated according to DBLP data. Author nodes are sized based on number of expertize in the field, and colored by authors.</p>
+    </header>
+
+      <div id="song_selection" class="control">
+        <h3>Topic</h3>
+        <select id="song_select">
+          <option value="call_me_al.json">Cloud Computing</option>
+         <!--  <option value="sledgehammer_2_rounds.json">Machine Learning</option> -->
+          <option value="poker_face.json">Machine Learning</option>
+          <!-- <option value="jolene.json">Earth Sciences</option>
+          <option value="helplessness_blues.json">Operating System</option>
+          <option value="she_said.json">Distributed System</option>
+          <option value="short_skirt.json">Modeling networks</option> -->
+        </select>
+
+      </div>
+    <div id="controls">
+      <div id="layouts" class="control">
+        <h3>Layout</h3>
+        <a id="force" class="active">Force Directed Network</a>
+        <a id="radial">Authors</a>
+      </div>
+      <div id="filters" class="control">
+        <h3>Filter</h3>
+        <a id="all" class="active">All</a>
+        <a id="popular">Expert</a>
+        <a id="obscure">Amateur</a>
+      </div>
+      <div id="sorts" class="control">
+        <h3>Kinds of Network</h3>
+        <a id="songs" class="active">Publication Network</a>
+      </div> 
+      <div id="both" class="control">
+      <h3>.</h3>
+        <a id="links">Author and Publication Network</a>
+      </div>
+      <!-- <div id="search_section" class="control">
+        <form id="search_form" action=""  method="post">
+          <p class="search_title">Search <input type="text" class="text-input" id="search" value="" /></p>
+        </form>
+      </div> -->
+    <div id="main" role="main">
+      <div id="vis"></div>
+    </div>
+    
+    
+  </div> <!--! end of #container -->
+
+
+  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> -->
+  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+
+
+  <script defer src="js/plugins.js"></script>
+  <script defer src="js/script.js"></script>
+  <script src="js/libs/coffee-script.js"></script>
+  <script src="js/libs/d3.v2.js"></script>
+  <script src="js/Tooltip.js"></script>
+  <script src="js/vis.js"></script>
+  <!--<script type="text/coffeescript" src="coffee/vis.coffee"></script>!-->
+
+  <script> // Change UA-XXXXX-X to be your site's ID
+    window._gaq = [['_setAccount','UAXXXXXXXX1'],['_trackPageview'],['_trackPageLoadTime']];
+    Modernizr.load({
+      load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+    });
+  </script>
+
+
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+  
+</body>
+</html>
