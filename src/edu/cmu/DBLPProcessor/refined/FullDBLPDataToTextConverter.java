@@ -1,4 +1,4 @@
-package edu.cmu.DBLPProcessor.copy;
+package edu.cmu.DBLPProcessor.refined;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;

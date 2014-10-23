@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.cmu.DBLPProcessor.copy;
+package edu.cmu.DBLPProcessor.refined;
 
 import java.util.List;
 
@@ -13,15 +13,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author NASA-Trust-Team
  *
  */
-@XmlRootElement(name="phdthesis")
-public class Phdthesis extends Publication
+@XmlRootElement(name="incollection")
+public class BookChapter extends Publication
 {
 	//private static int count;
-	//private int id;
-	private int schoolId;
-	private String department;
-	private String advisorId;
-//	
+	private int bookId;
+	private String pages;
+//	private int id;
 //	private int cited;
 //	private List<String> author;
 //	private List<String> editor;
@@ -50,10 +48,11 @@ public class Phdthesis extends Publication
 //	private String reviewid;
 //	private String rating;
 //	private List<String> field;
-//	
-	public Phdthesis() {
+	
+	public Incollection() {
 		super();
 		id = ++count;
+		cited = 0;
 	}
 	
 	public int getId() {
@@ -316,8 +315,8 @@ public class Phdthesis extends Publication
 	
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof Phdthesis) {
-			if(this.getTitle().equals(((Phdthesis) o).getTitle()))
+		if(o instanceof Incollection) {
+			if(this.getTitle().equals(((Incollection) o).getTitle()))
 				return true;
 		}
 		return false;
