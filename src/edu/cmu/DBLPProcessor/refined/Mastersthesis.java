@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement(name="mastersthesis")
-public class Mastersthesis extends DBLPElement
+public class Mastersthesis extends Publication
 {
 	private static int count;
 	private int id;
@@ -67,23 +67,6 @@ public class Mastersthesis extends DBLPElement
 	
 	public void setCited(int cited) {
 		this.cited = cited;
-	}
-	
-	@XmlElement(name="author")
-	public List<String> getAuthor() {
-		return author;
-	}
-	public void setAuthor(List<String> author) {
-		this.author = author;
-	}
-	
-	@XmlElement(name="editor")
-	public List<String> getEditor() {
-		return editor;
-	}
-
-	public void setEditor(List<String> editor) {
-		this.editor = editor;
 	}
 	
 	@XmlElement(name="title")
@@ -310,13 +293,5 @@ public class Mastersthesis extends DBLPElement
 	public void setField(List<String> field) {
 		this.field = field;
 	}
-	
-	@Override
-	public boolean equals(Object o) {
-		if(o instanceof Mastersthesis) {
-			if(this.getTitle().equals(((Mastersthesis) o).getTitle()))
-				return true;
-		}
-		return false;
-	}
+
 }

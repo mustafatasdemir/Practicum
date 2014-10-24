@@ -44,52 +44,7 @@ public class Inproceedings extends Publication
 	private String rating;
 	private List<String> field;
 	
-	public BookChapter() {
-		super();
-		id = ++count;
-		cited = 0;
-	}
-	
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public int getCited() {
-		return cited;
-	}
-	
-	public void setCited(int cited) {
-		this.cited = cited;
-	}
-	
-	@XmlElement(name="author")
-	public List<String> getAuthor() {
-		return author;
-	}
-	public void setAuthor(List<String> author) {
-		this.author = author;
-	}
-	
-	@XmlElement(name="editor")
-	public List<String> getEditor() {
-		return editor;
-	}
-
-	public void setEditor(List<String> editor) {
-		this.editor = editor;
-	}
-	
-	@XmlElement(name="title")
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
 
 	@XmlElement(name="booktitle")
 	public String getBooktitle() {
@@ -306,14 +261,5 @@ public class Inproceedings extends Publication
 
 	public void setField(List<String> field) {
 		this.field = field;
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		if(o instanceof BookChapter) {
-			if(this.getTitle().equals(((BookChapter) o).getTitle()))
-				return true;
-		}
-		return false;
 	}
 }
