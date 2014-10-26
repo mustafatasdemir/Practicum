@@ -1,6 +1,6 @@
 package edu.cmu.dblp.model;
 
-public class Author {
+public class Authors {
 	
 	private int authorId;
 	private String authorName;
@@ -30,14 +30,14 @@ public class Author {
 		this.institution = institution;
 	}
 
-	public Author() {
+	public Authors() {
 		super();
 	}
 	
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof Author) {
-			if(this.getAuthorName().equals(((Author) o).getAuthorName()))
+		if(o instanceof Authors) {
+			if(this.getAuthorName().equals(((Authors) o).getAuthorName()))
 				return true;
 		}
 		return false;
