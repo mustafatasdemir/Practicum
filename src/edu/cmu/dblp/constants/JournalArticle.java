@@ -8,9 +8,10 @@ public class JournalArticle{
 	 * Those attributes will be for future use
 	 * */
 	
-	public static String JOURNAL = "journal";
 	public static String VOLUME = "volume";
 	public static String MONTH = "month";
-	public static String CITE = "cite";
+	public static String PAGES = "pages";
+	public static String COLUMN = "column";
+	public static String URL = "url";
 
 }
