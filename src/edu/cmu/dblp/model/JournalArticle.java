@@ -3,19 +3,37 @@ package edu.cmu.dblp.model;
 // Corresponds to article entity in DBLP
 public class JournalArticle extends Publication {
 
+	private int journalArticleId;
 	private int journalId;
+	private int publicationId;
 	private String pages;
 	private String volume;
-	private String column;
+	private String columns;
 	private String month;
 	private String url;
 	
+	public int getJournalArticleId() {
+		return journalArticleId;
+	}
+
+	public void setJournalArticleId(int journalArticleId) {
+		this.journalArticleId = journalArticleId;
+	}
+
 	public int getJournalId() {
 		return journalId;
 	}
 
 	public void setJournalId(int journalId) {
 		this.journalId = journalId;
+	}
+	
+	public int getPublicationId() {
+		return publicationId;
+	}
+
+	public void setPublicationId(int publicationId) {
+		this.publicationId = publicationId;
 	}
 
 	public String getPages() {
@@ -34,12 +52,12 @@ public class JournalArticle extends Publication {
 		this.volume = volume;
 	}
 
-	public String getColumn() {
-		return column;
+	public String getColumns() {
+		return columns;
 	}
 
-	public void setColumn(String column) {
-		this.column = column;
+	public void setColumns(String columns) {
+		this.columns = columns;
 	}
 
 	public String getMonth() {

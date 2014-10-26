@@ -2,16 +2,16 @@ package edu.cmu.dblp.model;
 
 public class BookChapterData {
 	
-	private int bookId;
+	private int bookChapterDataId;
 	private String bookChapterName;
 	private double relevance;
 
-	public int getBookId() {
-		return bookId;
+	public int getBookChapterData() {
+		return bookChapterDataId;
 	}
 
-	public void setBookId(int bookId) {
-		this.bookId = bookId;
+	public void setBookChapterDataId(int bookChapterDataId) {
+		this.bookChapterDataId = bookChapterDataId;
 	}
 
 	public String getBookChapterName() {

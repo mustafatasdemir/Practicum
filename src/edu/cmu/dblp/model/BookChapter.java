@@ -3,15 +3,33 @@ package edu.cmu.dblp.model;
 // Corresponds to incollection entity in DBLP
 public class BookChapter extends Publication{
 
-	private int bookId;
+	private int bookChapterId;
+	private int bookChapterDataId;
+	private int publicationId;
 	private String pages;
 	
-	public int getBookId() {
-		return bookId;
+	public int getBookChapterId() {
+		return bookChapterId;
 	}
 
-	public void setBookId(int bookId) {
-		this.bookId = bookId;
+	public void setBookChapterId(int bookChapterId) {
+		this.bookChapterId = bookChapterId;
+	}
+	
+	public int getBookChapterDataId() {
+		return bookChapterDataId;
+	}
+
+	public void setBookChapterDataId(int bookChapterDataId) {
+		this.bookChapterDataId = bookChapterDataId;
+	}
+	
+	public int getPublicationId() {
+		return publicationId;
+	}
+
+	public void setPublicationId(int publicationId) {
+		this.publicationId = publicationId;
 	}
 
 	public String getPages() {

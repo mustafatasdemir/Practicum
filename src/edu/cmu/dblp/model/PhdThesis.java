@@ -3,20 +3,38 @@ package edu.cmu.dblp.model;
 //Corresponds to phd-thesis entity in DBLP
 public class PhdThesis extends Publication {
 
+	private int phdThesisId;
 	private int schoolId;
+	private int publicationId;
 	private String department;
-	private String advisorId;
+	private String advisorName;
 
 	public PhdThesis(){
 		super();
 	}
 	
+	public int getPhdThesisId() {
+		return phdThesisId;
+	}
+
+	public void setPhdThesisId(int phdThesisId) {
+		this.phdThesisId = phdThesisId;
+	}
+
 	public int getSchoolId() {
 		return schoolId;
 	}
 
 	public void setSchoolId(int schoolId) {
 		this.schoolId = schoolId;
+	}
+	
+	public int getPublicationId() {
+		return publicationId;
+	}
+
+	public void setPublicationId(int publicationId) {
+		this.publicationId = publicationId;
 	}
 
 	public String getDepartment() {
@@ -27,12 +45,12 @@ public class PhdThesis extends Publication {
 		this.department = department;
 	}
 
-	public String getAdvisorId() {
-		return advisorId;
+	public String getAdvisorName() {
+		return advisorName;
 	}
 
-	public void setAdvisorId(String advisorId) {
-		this.advisorId = advisorId;
+	public void setAdvisorId(String advisorName) {
+		this.advisorName = advisorName;
 	}
 
 	@Override

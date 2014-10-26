@@ -1,6 +1,7 @@
 package edu.cmu.database;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -26,15 +27,21 @@ public abstract class DBAbstractBase<T> {
 	protected List<String> explicitColumnNames;
 	
 	/*
+	 * condition: Condition clause
+	 */
+	protected String condition;
+	
+	/*
 	 * query: The final constructed SQL query
 	 */
 	protected final String query;
 	
 	// The constructor
-	public DBAbstractBase(Class<T> type, DBConnection dBConnection, List<String> explicitColumnNames) {		
+	public DBAbstractBase(Class<T> type, DBConnection dBConnection, List<String> explicitColumnNames, String condition) {		
 		this.type = type;
 		this.dBConnection = dBConnection;
 		this.explicitColumnNames = explicitColumnNames;
+		this.condition = condition;
 		this.query = createQuery();
 	}
 	
@@ -45,16 +52,28 @@ public abstract class DBAbstractBase<T> {
 	 * Returns the property names of this 'type', which corresponds to 
 	 * the column names of the database table this 'type' refers to when asPlaceholder 
 	 * is false. If, true, returns the '?' placeholder to construct the prepared statement
-	 * Again, the explicit columns, if specified, ensure only those columns are returned.
+	 * Again, the explicit columns, if specified, ensures only those columns are returned.
+	 * When calling all the columns, for insert the auto incremented id should not be present, 
+	 * hence the RemoveIdColumn method is called in removeIdColumn value is true.
 	 */
-	public String getColumns(boolean asPlaceholder)
+	public String getColumns(boolean asPlaceholder, boolean removeIdColumn)
 	{
 		StringBuilder returnString = new StringBuilder();
 		boolean first = true;
 		
 		if(explicitColumnNames == null || explicitColumnNames.isEmpty())
 		{
-			Field[] fields = type.getDeclaredFields();
+			Field[] fields;
+			
+			if(removeIdColumn)
+			{
+				fields = RemoveIdColumn(type.getDeclaredFields());
+			}
+			else
+			{
+				fields = type.getDeclaredFields();
+			}
+			
 			Arrays.sort(fields, new Comparator<Field>() {
 				  @Override
 				  public int compare(Field f1, Field f2) {
@@ -123,6 +142,23 @@ public abstract class DBAbstractBase<T> {
 		
 		return returnString.toString();
 		
+	}
+	
+	/*
+	 * Returns a Field array after removing the primary key column which is assumed to follow the naming 
+	 * convention of 'TableName'+'Id'.
+	 */
+	public Field[] RemoveIdColumn(Field[] fields)
+	{
+		List<Field> returnFields = new ArrayList<Field>();
+		for(Field field:fields)
+		{
+			if(!(field.getName().equalsIgnoreCase(type.getSimpleName()+"Id")))
+			{
+				returnFields.add(field);
+			}
+		}
+		return returnFields.toArray(new Field[returnFields.size()]);
 	}
 
 }

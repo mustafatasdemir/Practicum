@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.cmu.dblp.model.Authors;
+import edu.cmu.dblp.model.Author;
 
 public class DBTest {
 
@@ -22,24 +22,32 @@ public class DBTest {
 		//explicitColumnNames.add("authorId");
 		explicitColumnNames = null;
 		
-		List<Authors> authorsList = new ArrayList<Authors>();
-		Authors authorInsert1 = new Authors();
-		authorInsert1.setAuthorId(4);
-		authorInsert1.setAuthorName("Krutika");
+		List<Author> authorsList = new ArrayList<Author>();
+		Author authorInsert1 = new Author();
+		//authorInsert1.setAuthorId(4);
+		authorInsert1.setAuthorName("Mustafa");
 		authorInsert1.setInstitution("CMU");
 		authorsList.add(authorInsert1);
-		Authors authorInsert2 = new Authors();
-		authorInsert2.setAuthorId(5);
-		authorInsert2.setAuthorName("Abhishek");
+		Author authorInsert2 = new Author();
+		//authorInsert2.setAuthorId(5);
+		authorInsert2.setAuthorName("Jisha");
 		authorInsert2.setInstitution("CMU");
 		authorsList.add(authorInsert2);
 		
-		DBInsertQueries<Authors> dBInsertQueries = new DBInsertQueries<Authors>(Authors.class, dBConnection, explicitColumnNames);
-		dBInsertQueries.insertItems(authorsList);
+		DBInsertQueries<Author> dBInsertQueries = new DBInsertQueries<Author>(Author.class, dBConnection, explicitColumnNames);
+		authorsList = dBInsertQueries.insertItems(authorsList);
 		
-		List<Authors> authors = new DBSelectQueries<Authors>(Authors.class, dBConnection, explicitColumnNames, "WHERE authorId = 1").getResults();
+		List<Author> authors = new DBSelectQueries<Author>(Author.class, dBConnection, explicitColumnNames, null).getResults();
 		
-		for(Authors author:authors)
+		for(Author author:authors)
+		{
+			System.out.println("ID: " + author.getAuthorId());
+			System.out.println("Name: " + author.getAuthorName());
+			System.out.println("Institution: " + author.getInstitution());
+			System.out.println("==============");
+		}
+		
+		for(Author author:authorsList)
 		{
 			System.out.println("ID: " + author.getAuthorId());
 			System.out.println("Name: " + author.getAuthorName());

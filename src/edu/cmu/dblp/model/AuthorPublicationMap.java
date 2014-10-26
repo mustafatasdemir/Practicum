@@ -2,16 +2,16 @@ package edu.cmu.dblp.model;
 
 public class AuthorPublicationMap {
 	
-	private int mapId;
+	private int authorPublicationMapId;
 	private int publicationId;
 	private int authorId;
 
-	public int getMapId() {
-		return mapId;
+	public int getAuthorPublicationMapId() {
+		return authorPublicationMapId;
 	}
 
-	public void setMapId(int mapId) {
-		this.mapId = mapId;
+	public void setAuthorPublicationMapId(int authorPublicationMapId) {
+		this.authorPublicationMapId = authorPublicationMapId;
 	}
 
 	public int getPublicationId() {

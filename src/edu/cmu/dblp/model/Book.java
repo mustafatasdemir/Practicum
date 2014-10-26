@@ -5,6 +5,8 @@ import java.util.List;
 // Corresponds to book entity in DBLP
 public class Book extends Publication{
 
+	private int bookId;
+	private int publicationId;
 	private List<String> editors;
 	private String pages;
 	private String publisherAddress;
@@ -13,6 +15,22 @@ public class Book extends Publication{
 	private String publisher;
 	private String isbn;
 	private String series;
+	
+	public int getBookId() {
+		return bookId;
+	}
+
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
+	}
+
+	public int getPublicationId(){
+		return publicationId;
+	}
+	
+	public void setPublicationId(int publicationId){
+		this.publicationId = publicationId;
+	}
 	
 	public List<String> getEditors() {
 		return editors;

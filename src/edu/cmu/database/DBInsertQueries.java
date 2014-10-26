@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -16,7 +17,7 @@ public class DBInsertQueries<T> extends DBAbstractBase<T> {
 
 	public DBInsertQueries(Class<T> type, DBConnection dBConnection,
 			List<String> explicitColumnNames) {
-		super(type, dBConnection, explicitColumnNames);
+		super(type, dBConnection, explicitColumnNames, null);
 	}
 
 	@Override
@@ -26,28 +27,28 @@ public class DBInsertQueries<T> extends DBAbstractBase<T> {
 		query.append("INSERT INTO ");
 		query.append(type.getSimpleName());
 		query.append(" (");
-		query.append(super.getColumns(false));
+		query.append(super.getColumns(false, true));
 		query.append(") VALUES (");
-		query.append(super.getColumns(true));
+		query.append(super.getColumns(true, true));
 		query.append(")");
 		
 		return query.toString();
 	}
 	
-	public void insertItems(List<T> items) throws SQLException, IntrospectionException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	public List<T> insertItems(List<T> items) throws SQLException, IntrospectionException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		Connection connection = null;
 		
-		try
+		for(T item:items)
 		{
-			connection = new MySQLConnection().createConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			
-			for(T item:items)
+			try
 			{
+				connection = new MySQLConnection().createConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+				
 				if(explicitColumnNames == null || explicitColumnNames.isEmpty())
 				{
-					Field[] fields = type.getDeclaredFields();
+					Field[] fields = RemoveIdColumn(type.getDeclaredFields());
 					Arrays.sort(fields, new Comparator<Field>() {
 						  @Override
 						  public int compare(Field f1, Field f2) {
@@ -64,7 +65,14 @@ public class DBInsertQueries<T> extends DBAbstractBase<T> {
 						Object value = method.invoke(item);
 						preparedStatement.setObject(i++, value);
 					}
-					preparedStatement.addBatch();
+					preparedStatement.executeUpdate();
+					ResultSet resultSet = preparedStatement.getGeneratedKeys();
+					if(resultSet.next())
+					{
+						PropertyDescriptor propertyDescriptor = new PropertyDescriptor(GetIdColumnName(), type);
+						Method method = propertyDescriptor.getWriteMethod();
+						method.invoke(item, resultSet.getInt(1));
+					}
 				}
 				else
 				{
@@ -78,18 +86,39 @@ public class DBInsertQueries<T> extends DBAbstractBase<T> {
 						Object value = method.invoke(item);
 						preparedStatement.setObject(i++, value);
 					}
-					preparedStatement.addBatch();
+					preparedStatement.executeUpdate();
+					ResultSet resultSet = preparedStatement.getGeneratedKeys();
+					if(resultSet.next())
+					{
+						PropertyDescriptor propertyDescriptor = new PropertyDescriptor(GetIdColumnName(), type);
+						Method method = propertyDescriptor.getWriteMethod();
+						method.invoke(item, resultSet.getInt(1));
+					}
 				}
 			}
-			preparedStatement.executeBatch();
-		}
-		finally
-		{
-			if(connection != null && !connection.isClosed())
+			finally
 			{
-				connection.close();
+				if(connection != null && !connection.isClosed())
+				{
+					connection.close();
+				}
 			}
 		}
+		return items;
+	}
+	
+	protected String GetIdColumnName()
+	{
+		String name = null;
+		
+		for(Field field:type.getDeclaredFields())
+		{
+			if(field.getName().equalsIgnoreCase(type.getSimpleName()+"Id"))
+			{
+				name = field.getName();
+			}
+		}
+		return name;
 	}
 
 }

@@ -13,12 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBSelectQueries<T> extends DBAbstractBase<T> {
-	
-	String condition;
 
 	public DBSelectQueries(Class<T> type, DBConnection dBConnection, List<String> explicitColumnNames, String condition) {
-		super(type, dBConnection, explicitColumnNames);
-		this.condition = condition;
+		super(type, dBConnection, explicitColumnNames, condition);
 	}
 
 	@Override
@@ -26,10 +23,10 @@ public class DBSelectQueries<T> extends DBAbstractBase<T> {
 		StringBuilder query = new StringBuilder();
 		
 		query.append("SELECT ");
-		query.append(super.getColumns(false));
+		query.append(super.getColumns(false, false));
 		query.append(" FROM ");
 		query.append(type.getSimpleName());
-		if(!(condition == null))
+ 		if(!(condition == null))
 		{
 			query.append(" " + condition);
 		}
