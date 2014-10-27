@@ -8,7 +8,7 @@ public class MySQLConnection implements DBConnection {
 	
 	static final String DB_URL = "jdbc:mysql://localhost/dblp";
 	static final String USER = "root";
-	static final String PASS = "P@$$w0r|)";
+	static final String PASS = "";
 
 	public MySQLConnection() {
 		super();
