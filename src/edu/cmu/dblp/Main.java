@@ -36,6 +36,12 @@ public class Main {
 		//	      System.out.println(item);
 		//	    }	
 	}
+	
+	public static void printCounter(int count){
+		if(count % 100000 == 0){
+			System.out.println(String.valueOf(count));
+		}
+	}
 
 	public static void readXML(String configFile) {
 		try {
@@ -52,7 +58,7 @@ public class Main {
 
 			while (eventReader.hasNext()) {
 				
-				if(flag == 0 && counter == 3652){
+				if(flag == 0 && counter == 11127){
 					flag = 1;
 					System.out.println("Hey!");
 				}
@@ -86,8 +92,32 @@ public class Main {
 									continue;
 								}
 								else if(articleStartElement.getName().getLocalPart() == (Publication.TITLE)){
-									articleEvent = eventReader.nextEvent();
-									article.setPublicationTitle(articleEvent.asCharacters().getData());
+									String title = "";
+									while(eventReader.hasNext()){
+										articleEvent = eventReader.nextEvent();
+										if (articleEvent.isStartElement()) {
+											StartElement italicStartElement = articleEvent.asStartElement();
+											if (italicStartElement.getName().getLocalPart() == "i" || 
+													italicStartElement.getName().getLocalPart() == "sup") {
+												continue;
+											}
+										}
+										else if(articleEvent.isEndElement()){
+											EndElement italicEndElement = articleEvent.asEndElement();
+											if (italicEndElement.getName().getLocalPart() == "i" || 
+													italicEndElement.getName().getLocalPart() == "sup") {
+												continue;
+											}
+											else if(italicEndElement.getName().getLocalPart() == (Publication.TITLE)){
+												article.setPublicationTitle(title);
+												break;
+											}
+											
+										}
+										else{
+											title += articleEvent.asCharacters().getData();
+										}
+									}
 									continue;
 								}
 								else if(articleStartElement.getName().getLocalPart() == (Publication.YEAR)){
@@ -117,7 +147,7 @@ public class Main {
 								if(articleEndElement.getName().getLocalPart().equals(Publication.ARTICLE)){
 									//TODO: Mustafa - Save the instance to DB
 									counter++;
-									System.out.println(counter);
+									printCounter(counter);
 									break;
 								}
 							}
@@ -147,8 +177,32 @@ public class Main {
 									continue;
 								}
 								else if(bookStartElement.getName().getLocalPart() == (Publication.TITLE)){
-									bookEvent = eventReader.nextEvent();
-									book.setPublicationTitle(bookEvent.asCharacters().getData());
+									String title = "";
+									while(eventReader.hasNext()){
+										bookEvent = eventReader.nextEvent();
+										if (bookEvent.isStartElement()) {
+											StartElement italicStartElement = bookEvent.asStartElement();
+											if (italicStartElement.getName().getLocalPart() == "i" || 
+													italicStartElement.getName().getLocalPart() == "sup") {
+												continue;
+											}
+										}
+										else if(bookEvent.isEndElement()){
+											EndElement italicEndElement = bookEvent.asEndElement();
+											if (italicEndElement.getName().getLocalPart() == "i" || 
+													italicEndElement.getName().getLocalPart() == "sup") {
+												continue;
+											}
+											else if(italicEndElement.getName().getLocalPart() == (Publication.TITLE)){
+												book.setPublicationTitle(title);
+												break;
+											}
+											
+										}
+										else{
+											title += bookEvent.asCharacters().getData();
+										}
+									}
 									continue;
 								}
 								else if(bookStartElement.getName().getLocalPart() == (Publication.YEAR)){
@@ -183,7 +237,7 @@ public class Main {
 								if(bookEndElement.getName().getLocalPart().equals(Publication.BOOK)){
 									//TODO: Mustafa - Save the instance to DB
 									counter++;
-									System.out.println(counter);
+									printCounter(counter);
 									break;
 								}
 							}
@@ -213,36 +267,33 @@ public class Main {
 									continue;
 								}
 								else if(bookChapterStartElement.getName().getLocalPart() == (Publication.TITLE)){
-//									String title = "";
-//									while(eventReader.hasNext()){
-//										bookChapterEvent = eventReader.nextEvent();
-//										if (bookChapterEvent.isStartElement()) {
-//											StartElement italicStartElement = bookChapterEvent.asStartElement();
-//											if (italicStartElement.getName().getLocalPart() == "i") {
-//												continue;
-//											}
-//										}
-//										else if(bookChapterEvent.isEndElement()){
-//											EndElement italicEndElement = bookChapterEvent.asEndElement();
-//											if (italicEndElement.getName().getLocalPart() == "i") {
-//												continue;
-//											}
-//											else if(italicEndElement.getName().getLocalPart() == (Publication.TITLE)){
-//												bookChapter.setPublicationTitle(title);
-//												break;
-//											}
-//											
-//										}
-//										else{
-//											title = bookChapterEvent.asCharacters().getData();
-//										}
-//										
-//									}
+									String title = "";
 									while(eventReader.hasNext()){
-										break;
+										bookChapterEvent = eventReader.nextEvent();
+										if (bookChapterEvent.isStartElement()) {
+											StartElement italicStartElement = bookChapterEvent.asStartElement();
+											if (italicStartElement.getName().getLocalPart() == "i" || 
+													italicStartElement.getName().getLocalPart() == "sup") {
+												continue;
+											}
+										}
+										else if(bookChapterEvent.isEndElement()){
+											EndElement italicEndElement = bookChapterEvent.asEndElement();
+											if (italicEndElement.getName().getLocalPart() == "i" || 
+													italicEndElement.getName().getLocalPart() == "sup") {
+												continue;
+											}
+											else if(italicEndElement.getName().getLocalPart() == (Publication.TITLE)){
+												bookChapter.setPublicationTitle(title);
+												break;
+											}
+											
+										}
+										else{
+											title += bookChapterEvent.asCharacters().getData();
+										}
+										
 									}
-									bookChapterEvent = eventReader.nextEvent();
-									bookChapter.setPublicationTitle(bookChapterEvent.asCharacters().getData());
 									continue;
 								}
 								else if(bookChapterStartElement.getName().getLocalPart() == (Publication.YEAR)){
@@ -268,7 +319,7 @@ public class Main {
 								if(bookChapterEndElement.getName().getLocalPart().equals(Publication.INCOLLECTION)){
 									//TODO: Mustafa - Save the instance to DB
 									counter++;
-									System.out.println(counter);
+									printCounter(counter);
 									break;
 								}
 							}
@@ -298,8 +349,32 @@ public class Main {
 									continue;
 								}
 								else if(conferencePaperStartElement.getName().getLocalPart() == (Publication.TITLE)){
-									conferencePaperEvent = eventReader.nextEvent();
-									conferencePaper.setPublicationTitle(conferencePaperEvent.asCharacters().getData());
+									String title = "";
+									while(eventReader.hasNext()){
+										conferencePaperEvent = eventReader.nextEvent();
+										if (conferencePaperEvent.isStartElement()) {
+											StartElement italicStartElement = conferencePaperEvent.asStartElement();
+											if (italicStartElement.getName().getLocalPart() == "i" || 
+													italicStartElement.getName().getLocalPart() == "sup") {
+												continue;
+											}
+										}
+										else if(conferencePaperEvent.isEndElement()){
+											EndElement italicEndElement = conferencePaperEvent.asEndElement();
+											if (italicEndElement.getName().getLocalPart() == "i" || 
+													italicEndElement.getName().getLocalPart() == "sup") {
+												continue;
+											}
+											else if(italicEndElement.getName().getLocalPart() == (Publication.TITLE)){
+												conferencePaper.setPublicationTitle(title);
+												break;
+											}
+											
+										}
+										else{
+											title += conferencePaperEvent.asCharacters().getData();
+										}
+									}
 									continue;
 								}
 								else if(conferencePaperStartElement.getName().getLocalPart() == (Publication.YEAR)){
@@ -325,7 +400,7 @@ public class Main {
 								if(conferencePaperEndElement.getName().getLocalPart().equals(Publication.INPROCEEDINGS)){
 									//TODO: Mustafa - Save the instance to DB
 									counter++;
-									System.out.println(counter);
+									printCounter(counter);
 									break;
 								}
 							}
@@ -355,8 +430,32 @@ public class Main {
 									continue;
 								}
 								else if(phdThesisStartElement.getName().getLocalPart() == (Publication.TITLE)){
-									phdThesisEvent = eventReader.nextEvent();
-									phdThesis.setPublicationTitle(phdThesisEvent.asCharacters().getData());
+									String title = "";
+									while(eventReader.hasNext()){
+										phdThesisEvent = eventReader.nextEvent();
+										if (phdThesisEvent.isStartElement()) {
+											StartElement italicStartElement = phdThesisEvent.asStartElement();
+											if (italicStartElement.getName().getLocalPart() == "i" || 
+													italicStartElement.getName().getLocalPart() == "sup") {
+												continue;
+											}
+										}
+										else if(phdThesisEvent.isEndElement()){
+											EndElement italicEndElement = phdThesisEvent.asEndElement();
+											if (italicEndElement.getName().getLocalPart() == "i" || 
+													italicEndElement.getName().getLocalPart() == "sup") {
+												continue;
+											}
+											else if(italicEndElement.getName().getLocalPart() == (Publication.TITLE)){
+												phdThesis.setPublicationTitle(title);
+												break;
+											}
+											
+										}
+										else{
+											title += phdThesisEvent.asCharacters().getData();
+										}
+									}
 									continue;
 								}
 								else if(phdThesisStartElement.getName().getLocalPart() == (Publication.YEAR)){
@@ -388,7 +487,7 @@ public class Main {
 								if(phdThesisEndElement.getName().getLocalPart().equals(Publication.PHDTHESIS)){
 									//TODO: Mustafa - Save the instance to DB
 									counter++;
-									System.out.println(counter);
+									printCounter(counter);
 									break;
 								}
 							}
@@ -418,8 +517,32 @@ public class Main {
 									continue;
 								}
 								else if(webPageStartElement.getName().getLocalPart() == (Publication.TITLE)){
-									webPageEvent = eventReader.nextEvent();
-									webPage.setPublicationTitle(webPageEvent.asCharacters().getData());
+									String title = "";
+									while(eventReader.hasNext()){
+										webPageEvent = eventReader.nextEvent();
+										if (webPageEvent.isStartElement()) {
+											StartElement italicStartElement = webPageEvent.asStartElement();
+											if (italicStartElement.getName().getLocalPart() == "i" || 
+													italicStartElement.getName().getLocalPart() == "sup") {
+												continue;
+											}
+										}
+										else if(webPageEvent.isEndElement()){
+											EndElement italicEndElement = webPageEvent.asEndElement();
+											if (italicEndElement.getName().getLocalPart() == "i" || 
+													italicEndElement.getName().getLocalPart() == "sup") {
+												continue;
+											}
+											else if(italicEndElement.getName().getLocalPart() == (Publication.TITLE)){
+												webPage.setPublicationTitle(title);
+												break;
+											}
+											
+										}
+										else{
+											title += webPageEvent.asCharacters().getData();
+										}
+									}
 									continue;
 								}
 								else if(webPageStartElement.getName().getLocalPart() == (Publication.YEAR)){
@@ -444,7 +567,7 @@ public class Main {
 								if(webPageEndElement.getName().getLocalPart().equals(Publication.WWW)){
 									//TODO: Mustafa - Save the instance to DB
 									counter++;
-									System.out.println(counter);
+									printCounter(counter);
 									break;
 								}
 							}
@@ -452,11 +575,11 @@ public class Main {
 					}
 				}
 				if (event.isEndElement()) {
-					counter++;
-					System.out.println(counter);
-					if(counter % 10000 == 0){
-						System.out.println(counter);
-					}
+//					counter++;
+//					System.out.println(counter);
+//					if(counter % 10000 == 0){
+//						System.out.println(counter);
+//					}
 				}
 				
 			}
