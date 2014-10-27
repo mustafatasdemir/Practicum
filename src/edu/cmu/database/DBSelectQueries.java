@@ -28,7 +28,7 @@ public class DBSelectQueries<T> extends DBAbstractBase<T> {
 		query.append(type.getSimpleName());
  		if(!(condition == null))
 		{
-			query.append(" " + condition);
+			query.append(" WHERE " + condition);
 		}
 		
 		return query.toString();

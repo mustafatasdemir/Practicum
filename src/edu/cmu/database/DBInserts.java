@@ -21,48 +21,33 @@ public class DBInserts {
 
 
 
-	public static void DBInserts(String tag) throws Exception {
+	public static void DBInserts(Publication publication) throws Exception {
 
-
-
-		Publication publicationInsert = new Publication();
 		List < Publication > publicationList = new ArrayList < Publication > ();
 		/*--------------Insert into master table publication starts here ----------------------*/
-		publicationInsert.setPublicationChannel("channel");
-		publicationInsert.setCitationCount(10);
-		List < String > authors = new ArrayList(); //Temp List to hold the author names
-		authors.add("E. F. Codd");
-		authors.add("C. J. Date");
-		publicationInsert.setAuthorNames(authors);
-		publicationInsert.setPublicationTitle("Interactive Support for Non-Programmers: The Relational and Network Approaches.");
-		publicationInsert.setYear("2002");
-		publicationInsert.setUrl("");
-		publicationInsert.setPublisher("");
-		publicationInsert.setNote("");
-		publicationInsert.setKeywords("persons/CoddD74");
 		
 		//publication.add(obj)//Jisha:the input obj
-		publicationList.add(publicationInsert);
+		publicationList.add(publication);
 
 		DBInsertQueries < Publication > dBInsertQueries = new DBInsertQueries < Publication > (Publication.class, dBConnection, explicitColumnNames);
 		publicationList = dBInsertQueries.insertItems(publicationList);
 
 		int publicationId = publicationList.get(0).getPublicationId();
 
-		System.out.println(publicationList.get(0).getPublicationId());
+		//System.out.println(publicationList.get(0).getPublicationId());
 		/*-------------Insert into master table publication ends here ----------------------------*/
 
 
 
-		for (int i = 0; i < authors.size(); i++) {
-			List < Author > author = new DBSelectQueries < Author > (Author.class, dBConnection, explicitColumnNames, "authorName=" + authors.get(i)).getResults();
+		for (int i = 0; i < publication.getAuthorNames().size(); i++) {
+			List < Author > author = new DBSelectQueries < Author > (Author.class, dBConnection, explicitColumnNames, "authorName='" + publication.getAuthorNames().get(i).replace("'", "\\'") + "'").getResults();
 			int authorId = 0;
 			if (author.isEmpty()) {
 				/*-------Insert into author table starts here -----------*/
 				Author authorInsert = new Author();
 				List < Author > authorList = new ArrayList < Author > ();
 
-				authorInsert.setAuthorName(authors.get(i));
+				authorInsert.setAuthorName(publication.getAuthorNames().get(i));
 				authorInsert.setInstitution("institution");
 
 				authorList.add(authorInsert);
@@ -98,42 +83,59 @@ public class DBInserts {
 
 		}
 
-
-
-
-		if (tag.equals("Book")) {
-
-
+		if (publication instanceof Book) {
 			List < String > editors = new ArrayList < String > ();
 			//Jisha:If your publication type is Book, call the below method with the parameters that you get from the XML
-			insertBook(publicationId, editors, pages, month, url, publisher, isbn, series);
+			insertBook(publicationId, editors,
+					((Book) publication).getPages(),
+					((Book) publication).getMonth(),
+					publication.getUrl(),
+					publication.getPublisher(),
+					((Book) publication).getIsbn(),
+					((Book) publication).getSeries());
 
-		} else if (tag.equals("BookChapter")) {
-			insertBookChapter(bookChapterName, relevance, setPages, publicationId);
-
-		} else if (tag.equals("ConferencePaper")) {
-			insertConferencePaper(conferenceName, ConferenceLocation, relevance, publicationId, pages, url);
-
-
-		} else if (tag.equals("JournalArticle")) {
-			insertJournalArticle(journalName, relevance, publicationId, pages, voulme, columns, url);
-
-
-		} else if (tag.equals("PhDThesis")) {
-			insertPhDThesis(schoolName, location, relevance, publicationId, department, advisorName);
-
-
-		} else if (tag.equals("WebPage")) {
-
-
-			insertWebpage(publicationId, url, accessDate);
-
+		} 
+//		else if (publication instanceof BookChapter) {
+//			insertBookChapter(bookChapterName, relevance, ((BookChapter) publication).getPages(), publicationId);
+//
+//		} 
+//		else if (publication instanceof ConferencePaper) {
+//			insertConferencePaper(conferenceName, ConferenceLocation, relevance, publicationId,
+//					((ConferencePaper) publication).getPages(),
+//					publication.getUrl());
+//
+//
+//		} 
+//		else if (publication instanceof JournalArticle) {
+//			insertJournalArticle(journalName, relevance, publicationId, pages, voulme, columns, url);
+//
+//
+//		} 
+//		else if (tag.equals("PhDThesis")) {
+//			insertPhDThesis(schoolName, location, relevance, publicationId, department, advisorName);
+//
+//
+//		} 
+		else if (publication instanceof WebPage) {
+			insertWebpage(publicationId, publication.getUrl(), ((WebPage) publication).getAccessDate());
 		}
 	}
 
-	public static void main(String args[]) throws Exception {
-		DBInserts("Journal");
-	}
+//	public static void main(String args[]) throws Exception {
+//		//DBInserts("Journal");
+//		Book book = new Book();
+//		book.getAuthorNames().add("Mustafa Tasdemir");
+//		book.setIsbn("asamdmas");
+//		book.setMonth("June");
+//		//book.getTags().add("sanane");
+//		book.setPages("123");
+//		book.setPublisher("Ben");
+//		book.setUrl("saa");
+//		book.setYear("1990");
+//		book.setPublicationChannel("channel");
+//		book.setPublicationTitle("Deneme");
+//		DBInserts(book);
+//	}
 
 
 	public static void insertBook(int publicationId, List < String > editors, String pages, String month, String url, String publisher, String isbn, String series) throws Exception {

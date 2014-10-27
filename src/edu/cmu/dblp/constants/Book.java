@@ -4,7 +4,7 @@ public class Book {
 	
 	/*
 	 * These attributes correspond to DBLP Book entity attributes for STAX parsing
-	 * Many Book model attributes are not listed since they are not existent in DBLP
+	 * Some Book model attributes are not listed since they are not existent in DBLP
 	 * Those attributes will be for future use
 	 * */
 	

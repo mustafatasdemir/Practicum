@@ -4,6 +4,10 @@ public class Publication {
 	
 	public static final String BOOK = "book";
 	public static final String ARTICLE = "article";
+	public static final String INCOLLECTION = "incollection";
+	public static final String INPROCEEDINGS = "inproceedings";
+	public static final String PHDTHESIS = "phdthesis";
+	public static final String WWW = "www";
 	
 	
 	public static final String TITLE = "title";
