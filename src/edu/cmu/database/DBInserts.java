@@ -198,7 +198,7 @@ public class DBInserts {
 
 
 
-	public static void insertBookChapter(String conferenceName, String conferenceLocation, int relevance, int publicationId, String pages, String url) throws Exception {
+	public static void insertConferencePaper(String conferenceName, String conferenceLocation, int relevance, int publicationId, String pages, String url) throws Exception {
 		List < Conference > conferenceListInfo = new DBSelectQueries < Conference > (Conference.class, dBConnection, explicitColumnNames, "ConferenceName=" + conferenceName).getResults();
 		int conferenceId = 0;
 
