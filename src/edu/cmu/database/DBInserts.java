@@ -26,7 +26,6 @@ public class DBInserts {
 		List < Publication > publicationList = new ArrayList < Publication > ();
 		/*--------------Insert into master table publication starts here ----------------------*/
 		
-		//publication.add(obj)//Jisha:the input obj
 		publicationList.add(publication);
 
 		DBInsertQueries < Publication > dBInsertQueries = new DBInsertQueries < Publication > (Publication.class, dBConnection, explicitColumnNames);
@@ -34,7 +33,6 @@ public class DBInserts {
 
 		int publicationId = publicationList.get(0).getPublicationId();
 
-		//System.out.println(publicationList.get(0).getPublicationId());
 		/*-------------Insert into master table publication ends here ----------------------------*/
 
 
@@ -48,11 +46,10 @@ public class DBInserts {
 				List < Author > authorList = new ArrayList < Author > ();
 
 				authorInsert.setAuthorName(publication.getAuthorNames().get(i));
-				authorInsert.setInstitution("institution");
+				authorInsert.setInstitution("institution");//Jisha: Need the logic to get teh institution
 
 				authorList.add(authorInsert);
-
-
+				
 				DBInsertQueries < Author > authorInsertQueries = new DBInsertQueries < Author > (Author.class, dBConnection, explicitColumnNames);
 				authorList = authorInsertQueries.insertItems(authorList);
 
@@ -95,10 +92,10 @@ public class DBInserts {
 					((Book) publication).getSeries());
 
 		} 
-//		else if (publication instanceof BookChapter) {
-//			insertBookChapter(bookChapterName, relevance, ((BookChapter) publication).getPages(), publicationId);
-//
-//		} 
+		else if (publication instanceof BookChapter) {
+		//	insertBookChapter("BookChapterName",  relevance, ((BookChapter) publication).getPages(), publicationId);
+
+		} 
 //		else if (publication instanceof ConferencePaper) {
 //			insertConferencePaper(conferenceName, ConferenceLocation, relevance, publicationId,
 //					((ConferencePaper) publication).getPages(),
@@ -111,11 +108,10 @@ public class DBInserts {
 //
 //
 //		} 
-//		else if (tag.equals("PhDThesis")) {
-//			insertPhDThesis(schoolName, location, relevance, publicationId, department, advisorName);
-//
-//
-//		} 
+		else if (publication instanceof PhdThesis) {
+			insertPhDThesis("schoolName", "location", 1.0, publicationId, ((PhdThesis) publication).getDepartment() , ((PhdThesis) publication).getAdvisorName() );
+
+		} 
 		else if (publication instanceof WebPage) {
 			insertWebpage(publicationId, publication.getUrl(), ((WebPage) publication).getAccessDate());
 		}
@@ -324,7 +320,7 @@ public class DBInserts {
 		phdthesis.setSchoolId(schoolId);
 		phdthesis.setPublicationId(publicationId);
 		phdthesis.setDepartment(department);
-		phdthesis.setAdvisorId(advisorName);
+		phdthesis.setAdvisorName(advisorName);
 
 
 

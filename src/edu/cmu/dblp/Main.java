@@ -34,7 +34,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		//readXML("/Users/ironstone/Downloads/dblp/dblp.xml");
-		readXML("/home/mustafa/dblp.xml");
+		readXML("/Users/jishavm/Documents/workspace/Practicum/dblp_example.xml");
 		//		List<Item> readConfig = StaXParser.readConfig("/Users/ironstone/Desktop/dblp_example.xml");
 		//	    for (Item item : readConfig) {
 		//	      System.out.println(item);
@@ -244,6 +244,7 @@ public class Main {
 							if(bookEvent.isEndElement()){
 								EndElement bookEndElement = bookEvent.asEndElement();
 								if(bookEndElement.getName().getLocalPart().equals(Publication.BOOK)){
+									System.out.println(book.getPublisherAddress());
 									DBInserts.DBInserts(book);
 									//TODO: Mustafa - Save the instance to DB
 									counter++;
@@ -495,7 +496,7 @@ public class Main {
 							if(phdThesisEvent.isEndElement()){
 								EndElement phdThesisEndElement = phdThesisEvent.asEndElement();
 								if(phdThesisEndElement.getName().getLocalPart().equals(Publication.PHDTHESIS)){
-									//TODO: Mustafa - Save the instance to DB
+									DBInserts.DBInserts(phdThesis);
 									counter++;
 									printCounter(counter, startTime, Calendar.getInstance());
 									break;

@@ -49,7 +49,8 @@ public class PhdThesis extends Publication {
 		return advisorName;
 	}
 
-	public void setAdvisorId(String advisorName) {
+	public void setAdvisorName(String advisorName) {//Jisha: Changed the method name to setAdvisorName 
+		//from setAdvisorId to avoid confusion
 		this.advisorName = advisorName;
 	}
 
